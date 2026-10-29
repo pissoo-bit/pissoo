@@ -1,0 +1,24 @@
+
+:root{--sea:#0b4f6c;--sky:#e8f6fa;--sand:#f6ecd9;--accent:#e07a2f;--ink:#12303b}
+*{box-sizing:border-box;margin:0}
+body{font-family:Tahoma,"Vazirmatn",system-ui,sans-serif;color:var(--ink);background:#fff;line-height:1.9}
+a{color:inherit}
+header{position:sticky;top:0;background:rgba(11,79,108,.95);color:#fff;z-index:9}
+nav{max-width:1000px;margin:auto;display:flex;gap:18px;padding:12px 16px;flex-wrap:wrap;align-items:center}
+nav b{margin-inline-end:auto;font-size:1.1rem}
+nav a{text-decoration:none;font-size:.95rem;opacity:.9}
+.hero{background:linear-gradient(180deg,var(--sea),#2a9bb8);color:#fff;text-align:center;padding:90px 16px 120px;position:relative;overflow:hidden}
+.hero h1{font-size:2.2rem;margin-bottom:10px}
+.hero p{max-width:620px;margin:auto;opacity:.95}
+.dolphin{font-size:4rem;display:inline-block;animation:jump 3s ease-in-out infinite}
+@keyframes jump{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-22px) rotate(8deg)}}
+.wave{position:absolute;bottom:-1px;left:0;width:100%;height:60px}
+.btn{display:inline-block;margin-top:22px;background:var(--accent);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none}
+section{max-width:1000px;margin:auto;padding:56px 16px}
+h2{color:var(--sea);margin-bottom:18px;font-size:1.6rem}
+h2::before{content:"🐬 "}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.card{background:var(--sky);border-radius:16px;padding:20px}
+.card.sand{background:var(--sand)}
+.ph{height:150px;border-radius:12px;background:linear-gradient(135deg,#bfe6f0,#f6ecd9);display:flex;align-items:center;justify-content:center;color:var(--sea);font-size:.9rem}
+footer{background:var(--sea);color:#fff;text-align:center;padding:30px 16px}
