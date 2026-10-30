@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { T, META, LANGS } from "../lib/i18n";
 import { CATS, CAT_ICON } from "../lib/defaults";
+import { NAV_ROOMS, WINDS_NAV } from "../lib/winds";
 import { WhatsAppIcon, TelegramIcon, PhoneIcon, CartIcon } from "./Icons";
 
 const tr = (o, lang) => (o && (o[lang] || o.fa || o.en)) || "";
@@ -59,7 +60,8 @@ export default function Site({ lang, initial }) {
     window.open(wa(txt), "_blank", "noopener");
   };
   const upd = (k) => (e) => setForm({ ...form, [k]: e.target.value });
-  const ids = ["story", "rooms", "exp", "shop", "gallery", "contact"];
+  const ids = ["story", "rooms", "exp", "shop", "gallery", "winds", "contact"];
+  const navT = { ...t.nav, rooms: NAV_ROOMS[lang], winds: WINDS_NAV[lang] };
 
   return (
     <>
@@ -68,7 +70,7 @@ export default function Site({ lang, initial }) {
           <a className="brand" href={`/${lang}/`}><img src="/logo.png" alt="Pissoo House" height="48" /></a>
           <button className="burger" aria-label="menu" onClick={() => setMenu(!menu)}>☰</button>
           <div className={"links" + (menu ? " open" : "")} onClick={() => setMenu(false)}>
-            {ids.map((k) => <a key={k} href={`#${k}`}>{t.nav[k]}</a>)}
+            {ids.map((k) => <a key={k} href={k === "winds" ? `/${lang}/winds/` : `#${k}`}>{navT[k]}</a>)}
           </div>
           <div className="langs">
             {LANGS.map((l) => <a key={l} href={`/${l}/`} hrefLang={l} className={l === lang ? "on" : ""}>{l.toUpperCase()}</a>)}
