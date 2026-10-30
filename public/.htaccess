@@ -1,4 +1,11 @@
 Options -Indexes
+
+# pissoo.ir/  ->  pissoo.ir/fa/  (permanent redirect, default language is Persian)
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^$ /fa/ [R=301,L]
+</IfModule>
+
 <IfModule mod_deflate.c>
 AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
 </IfModule>
