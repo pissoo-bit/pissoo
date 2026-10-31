@@ -1,5 +1,6 @@
 import Winds from "../../../../components/Winds";
 import "./winds.css";
+import "../../../extra.css";
 import { LANGS, SITE } from "../../../../lib/i18n";
 import { WINDS_META } from "../../../../lib/winds";
 

@@ -1,5 +1,5 @@
-import { T, LANGS } from "../lib/i18n";
-import { WINDS, SOURCES, UI, MONTHS, SEASONS, SEASON_COLOR, NAV_ROOMS, WINDS_NAV, nf, rangeText, gregText, bars } from "../lib/winds";
+import { SubHeader, SubFooter } from "./SubChrome";
+import { WINDS, SOURCES, UI, MONTHS, SEASONS, SEASON_COLOR, nf, rangeText, gregText, bars } from "../lib/winds";
 
 const pick = (o, l) => (o && (o[l] || o.fa)) || "";
 
@@ -66,29 +66,15 @@ function Card({ w, lang }) {
 }
 
 export default function Winds({ lang }) {
-  const t = T[lang];
   const u = UI[lang];
   const bigs = WINDS.filter((w) => w.big);
   const groups = {};
   WINDS.forEach((w) => { const m = w.from[0]; if (!groups[m]) groups[m] = []; groups[m].push(w); });
   const months = Object.keys(groups).map(Number).sort((a, b) => a - b);
-  const nav = [["story", t.nav.story], ["rooms", NAV_ROOMS[lang]], ["exp", t.nav.exp], ["shop", t.nav.shop], ["gallery", t.nav.gallery]];
 
   return (
     <div className="wpage">
-      <header id="top">
-        <nav className="nav-simple">
-          <a className="brand" href={`/${lang}/`}><img src="/logo.png" alt="Pissoo House" height="48" /></a>
-          <div className="links">
-            {nav.map(([k, label]) => <a key={k} href={`/${lang}/#${k}`}>{label}</a>)}
-            <a href={`/${lang}/winds/`} aria-current="page" className="cur">{WINDS_NAV[lang]}</a>
-            <a href={`/${lang}/#contact`}>{t.nav.contact}</a>
-          </div>
-          <div className="langs">
-            {LANGS.map((l) => <a key={l} href={`/${l}/winds/`} hrefLang={l} className={l === lang ? "on" : ""}>{l.toUpperCase()}</a>)}
-          </div>
-        </nav>
-      </header>
+      <SubHeader lang={lang} current="winds" path="winds/" />
 
       <main>
         <section className="whead">
@@ -152,11 +138,7 @@ export default function Winds({ lang }) {
         </section>
       </main>
 
-      <footer>
-        <img className="footer-logo" src="/logo.png" alt="Pissoo House" />
-        <div>{t.footer}</div>
-        <div className="copy" dir="ltr">pissoo.ir</div>
-      </footer>
+      <SubFooter lang={lang} />
     </div>
   );
 }

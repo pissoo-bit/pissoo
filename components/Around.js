@@ -3,6 +3,8 @@ import { G, ROUTES, dur, GMAP_URL, IG_URL } from "../lib/guest";
 import { nf } from "../lib/winds";
 import { WhatsAppIcon, InstagramIcon } from "./Icons";
 
+const LOC = { fa: "fa-IR", en: "en-US", ar: "ar-EG" };
+
 function RouteMap({ lang }) {
   const a = G[lang].around;
   const km = G[lang].dur.km;
@@ -52,6 +54,7 @@ export default function Around({ lang }) {
   const a = G[lang].around;
   const km = G[lang].dur.km;
   const seaName = a.sea.split(" — ")[0];
+  const cur = lang === "en" ? "Toman" : "تومان";
   return (
     <div className="gp">
       <SubHeader lang={lang} current="around" path="around/" />
@@ -112,7 +115,7 @@ export default function Around({ lang }) {
             <p>{a.supP}</p>
             <h4>{a.rateT}</h4>
             <ul className="rates">
-              {a.rates.map(([label, price]) => <li key={label}><span>{label}</span><b>{nf(price, lang).replace(/\B(?=(\d{3})+(?!\d))/g, ",")} {lang === "en" ? "Toman" : "تومان"}</b></li>)}
+              {a.rates.map(([label, price]) => <li key={label}><span>{label}</span><b>{Number(price).toLocaleString(LOC[lang])} {cur}</b></li>)}
             </ul>
           </div>
         </section>

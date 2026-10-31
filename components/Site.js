@@ -1,14 +1,18 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
+import "../app/extra.css";
 import { T, META, LANGS } from "../lib/i18n";
 import { CATS, CAT_ICON } from "../lib/defaults";
 import { NAV_ROOMS, WINDS_NAV } from "../lib/winds";
-import { WhatsAppIcon, TelegramIcon, PhoneIcon, CartIcon } from "./Icons";
+import { NAVX, AMEN, G } from "../lib/guest";
+import { WhatsAppIcon, TelegramIcon, PhoneIcon, CartIcon, InstagramIcon } from "./Icons";
 
 const tr = (o, lang) => (o && (o[lang] || o.fa || o.en)) || "";
 
 export default function Site({ lang, initial }) {
   const t = T[lang];
+  const gh = G[lang].house;
+  const gr = G[lang].room;
   const [c, setC] = useState(initial);
   const [slide, setSlide] = useState(0);
   const [cat, setCat] = useState("all");
@@ -60,8 +64,9 @@ export default function Site({ lang, initial }) {
     window.open(wa(txt), "_blank", "noopener");
   };
   const upd = (k) => (e) => setForm({ ...form, [k]: e.target.value });
-  const ids = ["story", "rooms", "exp", "shop", "gallery", "winds", "contact"];
-  const navT = { ...t.nav, rooms: NAV_ROOMS[lang], winds: WINDS_NAV[lang] };
+  const ids = ["story", "rooms", "exp", "food", "around", "shop", "winds", "gallery", "contact"];
+  const navT = { ...t.nav, rooms: NAV_ROOMS[lang], winds: WINDS_NAV[lang], ...NAVX[lang] };
+  const sub = { food: "food/", around: "around/", winds: "winds/" };
 
   return (
     <>
@@ -70,7 +75,7 @@ export default function Site({ lang, initial }) {
           <a className="brand" href={`/${lang}/`}><img src="/logo.png" alt="Pissoo House" height="48" /></a>
           <button className="burger" aria-label="menu" onClick={() => setMenu(!menu)}>☰</button>
           <div className={"links" + (menu ? " open" : "")} onClick={() => setMenu(false)}>
-            {ids.map((k) => <a key={k} href={k === "winds" ? `/${lang}/winds/` : `#${k}`}>{navT[k]}</a>)}
+            {ids.map((k) => <a key={k} href={sub[k] ? `/${lang}/${sub[k]}` : `#${k}`}>{navT[k]}</a>)}
           </div>
           <div className="langs">
             {LANGS.map((l) => <a key={l} href={`/${l}/`} hrefLang={l} className={l === lang ? "on" : ""}>{l.toUpperCase()}</a>)}
@@ -112,17 +117,41 @@ export default function Site({ lang, initial }) {
       <section id="rooms" className="alt"><div className="wrap">
         <h2 className="rv">{t.rooms_t}</h2><p className="sub rv">{t.rooms_sub}</p>
         <div className="grid">
-          {c.rooms.map((r) => (
-            <article key={r.id} className="card rv">
-              <div className="media" style={r.img ? { backgroundImage: `url(${r.img})` } : null}>{!r.img && "🛏️"}</div>
-              <div className="body">
-                <h3>{tr(r.name, lang)}</h3><p>{tr(r.desc, lang)}</p>
-                <div className="meta"><span>👥 {r.capacity} {t.guests}</span><b>{r.price ? `${fmt(r.price)} ${t.currency} / ${t.per_night}` : t.ask_price}</b></div>
-                <a className="btn sm" target="_blank" rel="noopener" href={wa(`${t.wa_book}: ${tr(r.name, lang)}`)}>{t.request}</a>
-              </div>
-            </article>
-          ))}
+          {c.rooms.map((r) => {
+            const cMin = r.capMin ?? r.capacity ?? 0;
+            const cMax = r.capMax ?? r.capacity ?? 0;
+            return (
+              <article key={r.id} className="card rv">
+                <div className="media" style={r.img ? { backgroundImage: `url(${r.img})` } : null}>{!r.img && "🛏️"}</div>
+                <div className="body">
+                  <h3>{tr(r.name, lang)}</h3><p>{tr(r.desc, lang)}</p>
+                  {r.amen && r.amen.length > 0 && (
+                    <ul className="amen">{r.amen.filter((k) => AMEN[k]).map((k) => <li key={k}><span aria-hidden="true">{AMEN[k].i}</span>{AMEN[k][lang]}</li>)}</ul>
+                  )}
+                  <div className="meta"><span>👥 {cMax > cMin ? `${fmt(cMin)}–${fmt(cMax)}` : fmt(cMax)} {t.guests}</span></div>
+                  <ul className="prices">
+                    {r.price ? <li><span>{gr.p2}</span><b>{fmt(r.price)} {t.currency}</b></li> : <li><span>{t.ask_price}</span></li>}
+                    {r.extra > 0 && <li><span>{gr.extra}</span><b>{fmt(r.extra)} {t.currency}</b></li>}
+                    {r.single > 0 && <li><span>{gr.single}</span><b>{fmt(r.single)} {t.currency}</b></li>}
+                  </ul>
+                  <a className="btn sm" target="_blank" rel="noopener" href={wa(`${t.wa_book}: ${tr(r.name, lang)}`)}>{t.request}</a>
+                </div>
+              </article>
+            );
+          })}
         </div>
+      </div></section>
+
+      <section id="house"><div className="wrap">
+        <h2 className="rv">{gh.t}</h2>
+        <p className="hnotice rv">{gh.notice}</p>
+        <ul className="hgrid">{gh.items.map(([ic, x]) => <li key={x} className="rv"><span aria-hidden="true">{ic}</span><span>{x}</span></li>)}</ul>
+        <div className="hlinks">
+          <a className="btn sm" href={`/${lang}/rules/`}>{gh.rules}</a>
+          <a className="btn sm ghost dark" href={`/${lang}/food/`}>{gh.food}</a>
+          <a className="btn sm ghost dark" href={`/${lang}/around/`}>{gh.around}</a>
+        </div>
+        <p className="rnote">{gh.rulesP}</p>
       </div></section>
 
       <section id="exp"><div className="wrap">
@@ -189,6 +218,7 @@ export default function Site({ lang, initial }) {
             <textarea rows="3" placeholder={t.f_note} value={form.note} onChange={upd("note")} />
             <button className="btn" type="submit"><WhatsAppIcon size={20} /> {t.f_send}</button>
           </form>
+          <p className="rnote"><a href={`/${lang}/rules/`}>{gh.rules}</a> · {gh.items[gh.items.length - 1][1]}</p>
         </div>
         <div id="contact" className="rv">
           <h2>{t.map_t}</h2><p>{t.map_p}</p>
@@ -197,15 +227,23 @@ export default function Site({ lang, initial }) {
             <a href={`tel:${s.phone}`} className="ct"><PhoneIcon /> <span dir="ltr">{s.phone}</span></a>
             <a href={wa(t.wa_book)} target="_blank" rel="noopener" className="ct wa"><WhatsAppIcon /> WhatsApp</a>
             <a href={tg} target="_blank" rel="noopener" className="ct tg"><TelegramIcon /> Telegram</a>
+            {s.instagram && <a href={s.instagram} target="_blank" rel="noopener" className="ct"><InstagramIcon /> Instagram</a>}
           </div>
           <a className="btn ghost dark" href={s.mapUrl} target="_blank" rel="noopener">{t.map_btn}</a>
+          <a className="btn ghost dark" href={`/${lang}/around/`}>{gh.around}</a>
         </div>
       </div></section>
 
       <footer>
         <img className="footer-logo" src="/logo.png" alt="Pissoo House" />
         <div>{t.footer}</div>
-        <div className="foot-ic"><a href={wa(t.wa_book)} target="_blank" rel="noopener" aria-label="WhatsApp"><WhatsAppIcon size={22} /></a><a href={tg} target="_blank" rel="noopener" aria-label="Telegram"><TelegramIcon size={22} /></a><a href={`tel:${s.phone}`} aria-label="Phone"><PhoneIcon size={20} /></a></div>
+        <div className="foot-ic">
+          <a href={wa(t.wa_book)} target="_blank" rel="noopener" aria-label="WhatsApp"><WhatsAppIcon size={22} /></a>
+          <a href={tg} target="_blank" rel="noopener" aria-label="Telegram"><TelegramIcon size={22} /></a>
+          {s.instagram && <a href={s.instagram} target="_blank" rel="noopener" aria-label="Instagram"><InstagramIcon size={22} /></a>}
+          <a href={`tel:${s.phone}`} aria-label="Phone"><PhoneIcon size={20} /></a>
+        </div>
+        <div><a href={`/${lang}/rules/`}>{gh.rules}</a></div>
         <div className="copy" dir="ltr">pissoo.ir</div>
       </footer>
 

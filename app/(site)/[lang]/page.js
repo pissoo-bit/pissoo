@@ -1,5 +1,5 @@
 import Site from "../../../components/Site";
-import { DEFAULT_CONTENT } from "../../../lib/defaults";
+import { CONTENT } from "../../../lib/content";
 import { LANGS, SITE, T } from "../../../lib/i18n";
 
 export const dynamicParams = false;
@@ -21,13 +21,16 @@ export default function Page({ params }) {
     image: `${SITE}/hero/hero-1.jpg`,
     telephone: "+989938338277",
     availableLanguage: ["fa", "en", "ar"],
-    address: { "@type": "PostalAddress", addressLocality: "Bandar Rostami", addressRegion: "Bushehr", addressCountry: "IR" },
-    sameAs: ["https://wa.me/989938338277", "https://t.me/+989938338277"],
+    checkinTime: "14:00",
+    checkoutTime: "12:00",
+    petsAllowed: true,
+    address: { "@type": "PostalAddress", streetAddress: "Bandar Rostami, Delvar, Tangestan", addressLocality: "Bandar Rostami", addressRegion: "Bushehr", addressCountry: "IR" },
+    sameAs: ["https://wa.me/989938338277", "https://t.me/+989938338277", "https://instagram.com/Pissoo.Bushehr"],
   };
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
-      <Site lang={lang} initial={DEFAULT_CONTENT} />
+      <Site lang={lang} initial={CONTENT} />
     </>
   );
 }
