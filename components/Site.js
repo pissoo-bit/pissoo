@@ -6,15 +6,17 @@ import { CATS, CAT_ICON } from "../lib/defaults";
 import { NAV_ROOMS, WINDS_NAV } from "../lib/winds";
 import { NAVX, AMEN, G } from "../lib/guest";
 import { WhatsAppIcon, TelegramIcon, PhoneIcon, CartIcon, InstagramIcon } from "./Icons";
+import HeroScene from "./HeroScene";
+import SiteFooter from "./SiteFooter";
 
 const tr = (o, lang) => (o && (o[lang] || o.fa || o.en)) || "";
+const HERO_TAG = { fa: "خونه بوم‌گردی در بندر رستمی بوشهر", en: "Eco-lodge in Bandar Rostami, Bushehr", ar: "نزل بيئي في بندر رستمي، بوشهر" };
 
 export default function Site({ lang, initial }) {
   const t = T[lang];
   const gh = G[lang].house;
   const gr = G[lang].room;
   const [c, setC] = useState(initial);
-  const [slide, setSlide] = useState(0);
   const [cat, setCat] = useState("all");
   const [cart, setCart] = useState([]);
   const [cartOpen, setCartOpen] = useState(false);
@@ -32,12 +34,6 @@ export default function Site({ lang, initial }) {
     try { setCart(JSON.parse(localStorage.getItem("pissoo-cart") || "[]")); } catch (e) {}
   }, []);
   useEffect(() => { try { localStorage.setItem("pissoo-cart", JSON.stringify(cart)); } catch (e) {} }, [cart]);
-
-  useEffect(() => {
-    if (c.hero.length < 2) return;
-    const id = setInterval(() => setSlide((i) => (i + 1) % c.hero.length), 6500);
-    return () => clearInterval(id);
-  }, [c.hero.length]);
 
   useEffect(() => {
     document.documentElement.classList.add("js");
@@ -85,27 +81,16 @@ export default function Site({ lang, initial }) {
       </header>
 
       <div className="hero">
-        <div className="slides" aria-hidden="true">
-          {s.heroVideo ? (
-            <video className="vid" autoPlay muted loop playsInline poster={c.hero[0]} src={s.heroVideo} />
-          ) : (
-            c.hero.map((src, i) => <div key={src + i} className={"slide" + (i === slide ? " on" : "")} style={{ backgroundImage: `url(${src})` }} />)
-          )}
-        </div>
+        <HeroScene />
         <div className="hero-content">
-          <div className="hero-logo"><img src="/logo.png" alt="Pissoo House" /></div>
+          <span className="hero-tag">{HERO_TAG[lang]}</span>
           <h1>{t.tagline}</h1>
           <p>{t.sub}</p>
           <div className="hero-actions">
             <a className="btn" href="#book">{t.book}</a>
-            <a className="btn ghost" href="#shop">{t.seeShop}</a>
+            <a className="btn ghost" href="#gallery">{t.nav.gallery}</a>
           </div>
         </div>
-        {!s.heroVideo && c.hero.length > 1 && (
-          <div className="dots">{c.hero.map((_, i) => <button key={i} aria-label={"slide " + (i + 1)} className={i === slide ? "on" : ""} onClick={() => setSlide(i)} />)}</div>
-        )}
-        <svg className="wave wave-back" viewBox="0 0 2400 60" preserveAspectRatio="none"><path d="M0 30 Q150 0 300 30 T600 30 T900 30 T1200 30 T1500 30 T1800 30 T2100 30 T2400 30 V60 H0Z" fill="rgba(255,255,255,.45)" /></svg>
-        <svg className="wave wave-front" viewBox="0 0 2400 60" preserveAspectRatio="none"><path d="M0 30 Q150 0 300 30 T600 30 T900 30 T1200 30 T1500 30 T1800 30 T2100 30 T2400 30 V60 H0Z" fill="#fff" /></svg>
       </div>
 
       <section id="story" className="rv narrow">
@@ -204,7 +189,7 @@ export default function Site({ lang, initial }) {
       {c.reviews && c.reviews.length > 0 && (
         <section className="alt"><div className="wrap">
           <h2 className="rv">{t.reviews_t}</h2>
-          <div className="grid">{c.reviews.map((r) => <blockquote key={r.id} className="card rv quote"><p>“{tr(r.text, lang)}”</p><footer>— {r.author}</footer></blockquote>)}</div>
+          <div className="grid">{c.reviews.map((r) => <blockquote key={r.id} className="card rv quote"><p>“{tr(r.text, lang)}”</p><cite>— {r.author}</cite></blockquote>)}</div>
         </div></section>
       )}
 
@@ -234,18 +219,7 @@ export default function Site({ lang, initial }) {
         </div>
       </div></section>
 
-      <footer>
-        <img className="footer-logo" src="/logo.png" alt="Pissoo House" />
-        <div>{t.footer}</div>
-        <div className="foot-ic">
-          <a href={wa(t.wa_book)} target="_blank" rel="noopener" aria-label="WhatsApp"><WhatsAppIcon size={22} /></a>
-          <a href={tg} target="_blank" rel="noopener" aria-label="Telegram"><TelegramIcon size={22} /></a>
-          {s.instagram && <a href={s.instagram} target="_blank" rel="noopener" aria-label="Instagram"><InstagramIcon size={22} /></a>}
-          <a href={`tel:${s.phone}`} aria-label="Phone"><PhoneIcon size={20} /></a>
-        </div>
-        <div><a href={`/${lang}/rules/`}>{gh.rules}</a></div>
-        <div className="copy" dir="ltr">pissoo.ir</div>
-      </footer>
+      <SiteFooter lang={lang} settings={s} />
 
       <div className="float">
         <a className="fab tg" href={tg} target="_blank" rel="noopener" aria-label="Telegram"><TelegramIcon /></a>
