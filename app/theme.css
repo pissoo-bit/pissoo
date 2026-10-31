@@ -1,0 +1,70 @@
+/* Turquoise theme with the Pissoo dolphin motif. Loaded after globals.css; `html` prefixes win over the older rules. */
+html[lang]{--sea:#0b7f8c;--sky:#e4f8f8;--sand:#fff2dc;--accent:#f08a3c;--ink:#0f3a46;--navy:#0f4c5c;--turq:#19c3c7;--turq-d:#0b9aa6;--turq-l:#7fe6e8}
+html[lang] body{background:linear-gradient(180deg,#fff 0,#f2fdfd 100%)}
+
+/* display font for headings (Lalezar), Vazirmatn for body text */
+html h1,html h2{font-family:var(--font-display),var(--font),Tahoma,sans-serif;font-weight:400;letter-spacing:0}
+html h2{font-size:2rem;color:var(--sea)}
+html .hero h1{font-size:2.9rem;line-height:1.45}
+html h2::before{content:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='17' viewBox='-6 -3 56 28'%3E%3Cpath d='M4 13L-4 6Q-1 13-4 20Z' fill='%2319c3c7'/%3E%3Cpath d='M4 13C9 5 22 3 33 7C39 9 44 10 50 11C46 14 41 14 37 16C29 21 12 21 4 13Z' fill='%2319c3c7'/%3E%3Cpath d='M19 5.2L23-2L28 6Z' fill='%2319c3c7'/%3E%3Cpath d='M27 16L24 22L31 17Z' fill='%2319c3c7'/%3E%3Ccircle cx='38' cy='11.2' r='1.1' fill='%23073b44'/%3E%3C/svg%3E");display:inline-block;margin-inline-end:.45em;vertical-align:middle}
+
+/* header */
+header#top{background:rgba(255,255,255,.93);border-bottom:3px solid var(--turq);box-shadow:0 6px 20px rgba(11,127,140,.15)}
+nav a:hover{color:var(--turq-d)}
+html .langs a.on{background:var(--turq-d);border-color:var(--turq-d)}
+html .langs a{border-color:#bfeeee}
+
+/* buttons */
+html .btn{background:linear-gradient(135deg,var(--turq),var(--turq-d))}
+html .btn:hover{box-shadow:0 8px 22px rgba(25,195,199,.45)}
+html .hero-actions .btn:not(.ghost){background:linear-gradient(135deg,#f8a15a,var(--accent))}
+html .hero-actions .btn:not(.ghost):hover{box-shadow:0 8px 22px rgba(240,138,60,.45)}
+
+/* hero: teal tint, plus a dolphin that leaps across the waves (replaces the whale motif) */
+html .hero{background:linear-gradient(180deg,#0b7f8c,#2fd0d4)}
+html .hero::after{background:linear-gradient(180deg,rgba(4,70,80,.55) 0%,rgba(10,120,130,.18) 45%,rgba(4,60,70,.72) 100%)}
+html .hero::before{content:"";position:absolute;z-index:2;left:-160px;bottom:64px;width:150px;height:75px;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-6 -3 56 28'%3E%3Cpath d='M4 13L-4 6Q-1 13-4 20Z' fill='white'/%3E%3Cpath d='M4 13C9 5 22 3 33 7C39 9 44 10 50 11C46 14 41 14 37 16C29 21 12 21 4 13Z' fill='white'/%3E%3Cpath d='M19 5.2L23-2L28 6Z' fill='white'/%3E%3Cpath d='M27 16L24 22L31 17Z' fill='white'/%3E%3Ccircle cx='38' cy='11.2' r='1.1' fill='%230b7f8c'/%3E%3C/svg%3E") no-repeat center/contain;animation:hjump 11s ease-in-out infinite}
+@keyframes hjump{
+  0%{transform:translate(0,40px) rotate(-38deg);opacity:0}
+  6%{opacity:.95}
+  22%{transform:translate(22vw,-130px) rotate(-6deg)}
+  38%{transform:translate(44vw,-20px) rotate(38deg)}
+  46%{transform:translate(52vw,40px) rotate(58deg);opacity:0}
+  100%{transform:translate(52vw,40px) rotate(58deg);opacity:0}
+}
+html .hero-logo{box-shadow:0 12px 34px rgba(0,0,0,.28),0 0 0 4px rgba(25,195,199,.55)}
+
+/* sections, wavy dividers */
+html section.alt{background:linear-gradient(180deg,#e4f8f8,#f4fefe);position:relative}
+html section.alt::before{content:"";position:absolute;left:0;right:0;top:-1px;height:26px;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 26' preserveAspectRatio='none'%3E%3Cpath d='M0 0H120V12Q90 28 60 12T0 12Z' fill='white'/%3E%3C/svg%3E") repeat-x;background-size:120px 26px}
+html .card{border-radius:22px;border:1px solid rgba(25,195,199,.28);box-shadow:0 8px 26px rgba(11,127,140,.12)}
+html .card:hover{box-shadow:0 14px 34px rgba(11,127,140,.2)}
+html .chip,html .tag{background:#d6f6f6;color:var(--navy)}
+html .chips button{border-color:var(--turq-d);color:var(--turq-d)}
+html .chips button.on{background:var(--turq-d);border-color:var(--turq-d);color:#fff}
+html .facts li,html .steps li{background:#dff7f7;border:1px dashed var(--turq)}
+html .hnotice{background:#fff2dc;border:1px dashed var(--accent)}
+html .hgrid li{background:#e4f8f8}
+html .amen li{border-color:#bfeeee}
+
+/* footer */
+html footer{background:linear-gradient(180deg,#0b7f8c,#07525c);position:relative;margin-top:30px}
+html footer::before{content:"";position:absolute;left:0;right:0;top:-25px;height:26px;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 26' preserveAspectRatio='none'%3E%3Cpath d='M0 26H120V14Q90 -2 60 14T0 14Z' fill='%230b7f8c'/%3E%3C/svg%3E") repeat-x;background-size:120px 26px}
+html footer a{color:#d9ffff}
+
+/* inner pages (winds, rules, food, around) */
+html .wpage{--wnavy:#0f4c5c;--wblue:#0b9aa6;--wsand:#f1dcb4;--wcream:#eefbfb;--wline:#cdeeee}
+html .gp{background:#e4f8f8}
+html .wlevel.lo{background:var(--turq-d)}
+html .bar{background:linear-gradient(90deg,#0b9aa6,#6adbdc)}
+html .bar.red{background:linear-gradient(90deg,#c0392b,#ef6a5a)}
+html .wr{background:linear-gradient(90deg,#dff7f7,#f3fcfc)}
+html .tag{background:#d6f6f6}
+html .wpage .tag{background:var(--wblue);color:#fff}
+
+/* the dolphins that follow the cursor */
+.dtrail{position:fixed;inset:0;pointer-events:none;z-index:35;overflow:hidden}
+.dt{position:fixed;left:0;top:0;pointer-events:none;will-change:transform,opacity;filter:drop-shadow(0 3px 4px rgba(11,127,140,.3))}
+.dt svg{display:block}
+@media (prefers-reduced-motion:reduce){.dtrail{display:none}html .hero::before{display:none}}
+@media (max-width:760px){html .hero h1{font-size:2.1rem}html h2{font-size:1.7rem}}
