@@ -1,7 +1,7 @@
 import { T, LANGS } from "../lib/i18n";
 import { NAV_ROOMS, WINDS_NAV } from "../lib/winds";
-import { NAVX, G, IG_URL } from "../lib/guest";
-import { WhatsAppIcon, TelegramIcon, InstagramIcon } from "./Icons";
+import { NAVX } from "../lib/guest";
+import SiteFooter from "./SiteFooter";
 
 const SEP = { food: "food/", around: "around/", winds: "winds/" };
 const IDS = ["story", "rooms", "exp", "food", "around", "shop", "winds", "gallery", "contact"];
@@ -26,18 +26,5 @@ export function SubHeader({ lang, current, path }) {
 }
 
 export function SubFooter({ lang }) {
-  const t = T[lang];
-  return (
-    <footer>
-      <img className="footer-logo" src="/logo.png" alt="Pissoo House" />
-      <div>{t.footer}</div>
-      <div className="foot-ic">
-        <a href="https://wa.me/989938338277" target="_blank" rel="noopener" aria-label="WhatsApp"><WhatsAppIcon size={22} /></a>
-        <a href="https://t.me/+989938338277" target="_blank" rel="noopener" aria-label="Telegram"><TelegramIcon size={22} /></a>
-        <a href={IG_URL} target="_blank" rel="noopener" aria-label="Instagram"><InstagramIcon size={22} /></a>
-      </div>
-      <div><a href={`/${lang}/rules/`}>{G[lang].house.rules}</a></div>
-      <div className="copy" dir="ltr">pissoo.ir</div>
-    </footer>
-  );
+  return <SiteFooter lang={lang} />;
 }
