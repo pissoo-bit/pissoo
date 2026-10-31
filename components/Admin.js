@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import { DEFAULT_CONTENT, CATS } from "../lib/defaults";
+import { CATS } from "../lib/defaults";
+import { CONTENT } from "../lib/content";
+import { AMEN } from "../lib/guest";
 
 async function api(a, { json, body } = {}) {
   const r = await fetch(`/api/?a=${a}`, {
@@ -16,13 +18,13 @@ async function api(a, { json, body } = {}) {
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
 const CATN = { wood: "چوبی", wicker: "حصیری", shell: "صدفی", native: "محصولات بومی" };
 const FIELDS = {
-  rooms: [["name", "i18n", "نام"], ["desc", "i18nl", "توضیح"], ["capacity", "num", "ظرفیت (نفر)"], ["price", "num", "قیمت هر شب (تومان؛ ۰ = استعلام)"], ["img", "img", "عکس"]],
+  rooms: [["name", "i18n", "نام"], ["desc", "i18nl", "توضیح"], ["amen", "amen", "امکانات"], ["capMin", "num", "حداقل ظرفیت (نفر)"], ["capMax", "num", "حداکثر ظرفیت (نفر)"], ["price", "num", "قیمت دو نفر با صبحانه (تومان؛ ۰ = استعلام)"], ["extra", "num", "هر نفر اضافه (تومان؛ ۰ = نمایش داده نشود)"], ["single", "num", "اقامت یک نفر (تومان؛ ۰ = نمایش داده نشود)"], ["img", "img", "عکس"]],
   packages: [["name", "i18n", "نام"], ["desc", "i18nl", "توضیح"], ["duration", "i18n", "مدت"], ["price", "num", "قیمت (۰ = استعلام)"], ["img", "img", "عکس"]],
   products: [["cat", "cat", "دسته‌بندی"], ["name", "i18n", "نام"], ["desc", "i18nl", "توضیح"], ["price", "num", "قیمت (تومان؛ ۰ = تماس بگیرید)"], ["img", "img", "عکس"], ["soldout", "bool", "ناموجود"]],
   reviews: [["author", "text", "نام مسافر"], ["text", "i18nl", "متن نظر"]],
 };
 const TABS = [["settings", "تنظیمات و تماس"], ["rooms", "اتاق‌ها"], ["packages", "تجربه‌ها و تورها"], ["products", "فروشگاه"], ["media", "تصاویر"], ["reviews", "نظرات"], ["account", "رمز عبور"]];
-const blank = (k) => ({ id: uid(), ...Object.fromEntries(FIELDS[k].map(([f, ty]) => [f, ty === "i18n" || ty === "i18nl" ? { fa: "", en: "", ar: "" } : ty === "num" ? 0 : ty === "bool" ? false : ty === "cat" ? "wood" : ""])) });
+const blank = (k) => ({ id: uid(), ...Object.fromEntries(FIELDS[k].map(([f, ty]) => [f, ty === "i18n" || ty === "i18nl" ? { fa: "", en: "", ar: "" } : ty === "num" ? 0 : ty === "bool" ? false : ty === "cat" ? "wood" : ty === "amen" ? [] : ""])) });
 
 function Img({ value, onChange }) {
   const [busy, setBusy] = useState(false);
@@ -49,6 +51,16 @@ function Field({ type, value, onChange }) {
         <Tag dir={l === "en" ? "ltr" : "rtl"} rows={2} value={(value && value[l]) || ""} onChange={(e) => onChange({ ...(value || {}), [l]: e.target.value })} />
       </div>
     ));
+  }
+  if (type === "amen") {
+    const cur = Array.isArray(value) ? value : [];
+    return (
+      <div className="adm-amen">
+        {Object.keys(AMEN).map((k) => (
+          <label key={k}><input type="checkbox" checked={cur.includes(k)} onChange={(e) => onChange(e.target.checked ? [...cur, k] : cur.filter((x) => x !== k))} /> {AMEN[k].i} {AMEN[k].fa}</label>
+        ))}
+      </div>
+    );
   }
   if (type === "num") return <input type="number" min="0" value={value ?? 0} onChange={(e) => onChange(Number(e.target.value))} />;
   if (type === "bool") return <input type="checkbox" checked={!!value} onChange={(e) => onChange(e.target.checked)} />;
@@ -96,7 +108,7 @@ export default function Admin() {
   const [st, setSt] = useState(null);
   const [pw, setPw] = useState("");
   const [err, setErr] = useState("");
-  const [c, setC] = useState(DEFAULT_CONTENT);
+  const [c, setC] = useState(CONTENT);
   const [tab, setTab] = useState("settings");
   const [msg, setMsg] = useState("");
   const [pw2, setPw2] = useState({ cur: "", next: "" });
@@ -104,7 +116,7 @@ export default function Admin() {
   const load = async () => {
     try {
       const j = await api("content");
-      if (j.content) setC({ ...DEFAULT_CONTENT, ...j.content, settings: { ...DEFAULT_CONTENT.settings, ...(j.content.settings || {}) } });
+      if (j.content) setC({ ...CONTENT, ...j.content, settings: { ...CONTENT.settings, ...(j.content.settings || {}) } });
     } catch (e) {}
   };
   useEffect(() => { api("status").then((j) => { setSt(j); if (j.admin) load(); }).catch(() => setSt({ error: true })); }, []);
@@ -147,7 +159,7 @@ export default function Admin() {
       <main className="adm-main">
         {tab === "settings" && (
           <div>
-            {[["phone", "شماره تلفن (نمایشی)"], ["whatsapp", "شماره واتساپ (بین‌المللی بدون +؛ مثل 989938338277)"], ["telegram", "شماره تلگرام (بین‌المللی بدون +)"], ["instagram", "آدرس اینستاگرام (اختیاری)"], ["mapUrl", "لینک نقشه"], ["heroVideo", "ویدیوی بالای سایت (مسیر mp4، مثل /hero/sea.mp4؛ خالی = اسلایدشو)"]].map(([f, l]) => (
+            {[["phone", "شماره تلفن (نمایشی)"], ["whatsapp", "شماره واتساپ (بین‌المللی بدون +؛ مثل 989938338277)"], ["telegram", "شماره تلگرام (بین‌المللی بدون +)"], ["instagram", "آدرس اینستاگرام"], ["mapUrl", "لینک نقشه"], ["heroVideo", "ویدیوی بالای سایت (مسیر mp4، مثل /hero/sea.mp4؛ خالی = اسلایدشو)"]].map(([f, l]) => (
               <label className="adm-f" key={f}><b>{l}</b><input dir="ltr" value={c.settings[f] || ""} onChange={(e) => setS(f, e.target.value)} /></label>
             ))}
             <label className="adm-f"><b>نشانی</b><Field type="i18n" value={c.settings.address} onChange={(v) => setS("address", v)} /></label>
