@@ -1,0 +1,113 @@
+/* Pages, page icons, mobile hero, sea footer, 3D dolphin canvas. Imported by components so it loads after theme.css. */
+
+/* ---- hero on tablets and phones: keep the whole illustration in view ---- */
+@media (max-width:1000px){
+  html[lang] .hero{background:#7fdadf;padding-bottom:430px}
+  html[lang] .hscene{inset:auto;bottom:0;left:-41px;width:1100px;height:581px}
+  html[lang][dir=ltr] .hscene{left:auto;right:-41px}
+}
+@media (max-width:600px){
+  html[lang] .hero{padding-top:104px;padding-bottom:350px}
+  html[lang] .hscene{left:-35px;width:780px;height:412px}
+  html[lang][dir=ltr] .hscene{left:auto;right:-35px}
+  html[lang] .hero p{font-size:1.02rem}
+}
+
+/* ---- page layout ---- */
+.pg{min-height:60vh}
+.pg-head{max-width:860px;margin:auto;padding:34px 16px 6px;text-align:center}
+.pg-head h1{font-size:2.3rem;line-height:1.4;margin:6px 0}
+.pg-head p{font-size:1.05rem;line-height:2;opacity:.9}
+.pg-ic{width:104px;height:104px;margin:0 auto 6px;background:var(--paper);border:3px solid var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 7px 0 rgba(11,74,90,.18)}
+.pg-ic .pi{width:68px;height:68px}
+.pg-box{max-width:1100px;margin:auto;padding:22px 16px}
+.pg-box.narrow{max-width:760px}
+.pg-box h2{margin-bottom:12px}
+.pg-box.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:36px}
+.pg-box .lead{font-size:1.08rem;margin-bottom:12px}
+
+/* ---- home: summary cards with animated icons ---- */
+.hcards{max-width:1100px;margin:auto;padding:46px 16px 24px}
+.hgrid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px}
+.hcard{display:flex;flex-direction:column;align-items:flex-start;gap:6px;background:var(--paper);border:2.5px solid var(--navy);border-radius:26px;padding:20px;text-decoration:none;color:inherit;box-shadow:0 10px 0 rgba(11,74,90,.14);transition:transform .25s,box-shadow .25s}
+.hcard:hover{transform:translateY(-6px);box-shadow:0 16px 0 rgba(11,74,90,.14)}
+.hc-ic{width:84px;height:84px;border-radius:24px;background:var(--sky);border:2.5px solid var(--navy);display:flex;align-items:center;justify-content:center;margin-bottom:6px}
+.hc-ic .pi{width:58px;height:58px}
+.hcard h3{font-family:var(--font-display),var(--font),sans-serif;font-weight:400;font-size:1.45rem;color:var(--navy)}
+.hcard p{font-size:.95rem;line-height:1.9;opacity:.88}
+.hcard .more{margin-top:auto;padding-top:8px;font-weight:700;color:var(--turq-d)}
+
+/* ---- animated page icons ---- */
+.pi-jump{animation:pijump 3s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes pijump{0%,100%{transform:translateY(5px) rotate(-8deg)}50%{transform:translateY(-8px) rotate(8deg)}}
+.pi-win{animation:piglow 3s ease-in-out infinite}
+.pi-win.w2{animation-delay:1.3s}
+@keyframes piglow{0%,100%{opacity:1}50%{opacity:.3}}
+.pi-rock{animation:pirock 3.4s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes pirock{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+.pi-steam{stroke-dasharray:60;animation:pisteam 2.6s ease-in-out infinite}
+.pi-steam.s2{animation-delay:.5s}
+.pi-steam.s3{animation-delay:1s}
+@keyframes pisteam{0%{stroke-dashoffset:60;opacity:0}30%{opacity:1}100%{stroke-dashoffset:-20;opacity:0}}
+.pi-bounce{animation:pibounce 1.8s ease-in-out infinite}
+@keyframes pibounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.pi-ring2{animation:piripple 1.8s ease-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes piripple{0%{transform:scale(.5);opacity:1}100%{transform:scale(1.25);opacity:0}}
+.pi-sway{animation:pisway 3s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 0}
+@keyframes pisway{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+.pi-w{stroke-dasharray:70 40;animation:piwind 2.4s linear infinite}
+.pi-w.w2{animation-duration:3.2s}
+.pi-w.w3{animation-duration:2.8s;animation-delay:-1s}
+@keyframes piwind{to{stroke-dashoffset:-220}}
+.pi-tw{animation:pitw 2s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes pitw{0%,100%{transform:scale(.6) rotate(0);opacity:.6}50%{transform:scale(1.2) rotate(30deg);opacity:1}}
+.pi-draw{stroke-dasharray:40;animation:pidraw 3s ease-in-out infinite}
+@keyframes pidraw{0%{stroke-dashoffset:40}40%,100%{stroke-dashoffset:0}}
+.pi-ringp{animation:piring 1.8s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes piring{0%,60%,100%{transform:rotate(0)}10%,30%,50%{transform:rotate(-12deg)}20%,40%{transform:rotate(12deg)}}
+
+/* ---- footer: a sea with humpback dolphins surfacing through the footer line ---- */
+html footer.sf{overflow-x:clip;padding-top:50px;margin-top:20px}
+.fstrip{margin-bottom:112px}
+.sea{position:relative}
+.sw{position:absolute;left:0;width:200%;height:80px;pointer-events:none;animation:swmove 16s linear infinite}
+.sw-back{top:-38px;z-index:1;animation-duration:22s;animation-direction:reverse}
+.sw-front{top:-30px;z-index:3;animation-duration:15s}
+@keyframes swmove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.sea-dol{position:absolute;top:-76px;left:50%;margin-left:-720px;width:1440px;height:140px;pointer-events:none;z-index:2;overflow:visible}
+.sd{transform-box:fill-box;transform-origin:center}
+.sd1{animation:sdrise 7s ease-in-out infinite}
+.sd2{animation:sdleap 9s ease-in-out infinite;animation-delay:-2s}
+.sd3{animation:sdrise 8s ease-in-out infinite;animation-delay:-4s}
+@keyframes sdrise{0%,100%{transform:translateY(46px)}45%,60%{transform:translateY(-6px)}}
+@keyframes sdleap{0%,100%{transform:translateY(70px) rotate(8deg)}40%{transform:translateY(-14px) rotate(-4deg)}55%{transform:translateY(-34px) rotate(6deg)}70%{transform:translateY(20px) rotate(14deg)}}
+.sea-body{position:relative;z-index:4;background:linear-gradient(180deg,#0e90a0 0,#08616c 55%,#05444d 100%);color:#effcfb;padding:56px 0 0;margin-top:0}
+.sea-body a{color:#effcfb}
+.sea-body .fgrid{display:grid;grid-template-columns:1.3fr 1fr 1.2fr 1fr}
+.sea-body .fgrid>div{padding:0 22px;border-inline-start:1px solid rgba(255,255,255,.25)}
+.sea-body .fgrid>div:first-child{border:0;padding-inline-start:0}
+.sea-body .fbrand img{height:60px;width:auto;background:var(--paper);border-radius:14px;padding:6px 12px;display:block;margin-bottom:12px}
+.sea-body .fcol small{opacity:.8}
+.sea-body .fcol a,.sea-body .fig{text-decoration:none;font-weight:600}
+.sea-body .fcol a:hover,.sea-body .fig:hover{color:#bff5f3}
+.sea-body .fopen i{background:#7fe6e8}
+.sea-body .fbar{padding-top:44px;border-top:0}
+.sea-body .ficons a{color:#effcfb}
+
+/* ---- 3D dolphin canvas ---- */
+.dtrail3d{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:35;transition:opacity .6s}
+
+@media (max-width:900px){
+  .sea-body .fgrid{grid-template-columns:1fr 1fr;row-gap:24px}
+  .sea-body .fgrid>div:nth-child(3){border-inline-start:0;padding-inline-start:0}
+}
+@media (max-width:760px){
+  .pg-head h1{font-size:1.9rem}
+  .sea-body .fgrid{grid-template-columns:1fr}
+  .sea-body .fgrid>div{border:0;padding:0}
+  .sea-body .fbar{justify-content:center;text-align:center;padding-top:30px}
+}
+@media (prefers-reduced-motion:reduce){
+  .pi *,.pi,.sw,.sd{animation:none!important}
+  .dtrail3d{display:none}
+}

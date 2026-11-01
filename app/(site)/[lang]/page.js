@@ -1,4 +1,4 @@
-import Site from "../../../components/Site";
+import { HomePage } from "../../../components/Pages";
 import { CONTENT } from "../../../lib/content";
 import { LANGS, SITE, T } from "../../../lib/i18n";
 
@@ -30,7 +30,7 @@ export default function Page({ params }) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
-      <Site lang={lang} initial={CONTENT} />
+      <HomePage lang={lang} initial={CONTENT} />
     </>
   );
 }
