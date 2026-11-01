@@ -6,13 +6,24 @@ import SiteFooter from "./SiteFooter";
 import PageIcon from "./PageIcons";
 import { WhatsAppIcon, TelegramIcon } from "./Icons";
 
+// lists that must never come back empty: if the admin panel saved an empty list, keep the built-in defaults
+const NONEMPTY = ["rooms", "packages", "products", "hero", "gallery"];
+
+export function mergeContent(base, saved) {
+  const out = { ...base, ...saved, settings: { ...base.settings, ...(saved.settings || {}) } };
+  NONEMPTY.forEach((k) => {
+    if (!Array.isArray(saved[k]) || saved[k].length === 0) out[k] = base[k];
+  });
+  return out;
+}
+
 // live content from the admin panel (PHP API); falls back to the built-in defaults
 export function useLive(initial) {
   const [c, setC] = useState(initial);
   useEffect(() => {
     fetch("/api/?a=content", { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : null))
-      .then((j) => j && j.content && setC((p) => ({ ...p, ...j.content, settings: { ...p.settings, ...(j.content.settings || {}) } })))
+      .then((j) => j && j.content && setC((p) => mergeContent(p, j.content)))
       .catch(() => {});
   }, []);
   return c;
