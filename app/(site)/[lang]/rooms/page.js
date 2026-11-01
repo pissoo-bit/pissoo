@@ -1,4 +1,4 @@
-import { RoomsPage } from "../../../../components/Pages";
+import RoomsPage from "../../../../components/RoomsPage";
 import { CONTENT } from "../../../../lib/content";
 import { LANGS, SITE } from "../../../../lib/i18n";
 import { metaFor2 } from "../../../../lib/home";

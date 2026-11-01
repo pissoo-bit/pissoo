@@ -1,0 +1,26 @@
+/* Room cards: number badge, Bushehri name, spec grid with animated icons */
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr));gap:22px}
+.rcard{position:relative;display:flex;flex-direction:column}
+.reco{position:absolute;top:12px;inset-inline-start:12px;z-index:2;display:inline-flex;gap:6px;align-items:center;background:var(--accent);color:#fff;border:2px solid var(--navy);border-radius:999px;padding:1px 12px 1px 8px;font-size:.8rem;font-weight:700;box-shadow:0 3px 0 var(--navy)}
+.reco .si{width:20px;height:20px}
+.rmedia{height:170px;background:linear-gradient(135deg,#bff0ef,#fff2dc) center/cover;border-bottom:2.5px solid var(--navy);display:flex;align-items:center;justify-content:center}
+.rph{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.85rem;color:var(--navy);opacity:.8}
+.rph b{font-size:2.6rem;font-weight:400}
+.rhead{display:flex;gap:12px;align-items:center}
+.rnum{flex:none;width:52px;height:52px;border-radius:50%;background:var(--navy);color:var(--sand);display:flex;align-items:center;justify-content:center;font-family:var(--font-display),var(--font),sans-serif;font-size:1.7rem;line-height:1}
+.rhead h3{font-family:var(--font-display),var(--font),sans-serif;font-weight:400;font-size:1.5rem;line-height:1.3}
+.rmean{font-size:.88rem;line-height:1.8;opacity:.9}
+.rspecs{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+.rs{display:flex;gap:8px;align-items:flex-start;background:var(--sky);border:2px solid var(--navy);border-radius:14px;padding:6px 10px}
+.rs:first-child,.rs:nth-child(7){grid-column:1/-1}
+.rs .si{width:30px;height:30px;flex:none;margin-top:2px}
+.rs span{display:flex;flex-direction:column;line-height:1.7}
+.rs small{font-size:.72rem;opacity:.75}
+.rs b{font-size:.84rem;font-weight:700}
+.si-b{animation:sib 1.8s ease-in-out infinite}
+@keyframes sib{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+.si-d{stroke-dasharray:4 4;animation:sid 1.4s linear infinite}
+@keyframes sid{to{stroke-dashoffset:-16}}
+.rs:hover .si{transform:scale(1.12) rotate(-4deg);transition:transform .25s}
+@media (max-width:480px){.rspecs{grid-template-columns:1fr}.rs:first-child,.rs:nth-child(7){grid-column:auto}}
+@media (prefers-reduced-motion:reduce){.si-b,.si-d{animation:none}}
