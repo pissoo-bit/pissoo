@@ -1,0 +1,61 @@
+/* Culture page: an old colourful TV; plus the navigation breakpoint for ten tabs */
+@media (max-width:1120px){
+  html[lang] .burger{display:block}
+  html[lang] .links{display:none;position:absolute;top:100%;inset-inline:0;background:var(--paper);flex-direction:column;padding:12px 20px;gap:10px;box-shadow:0 10px 20px rgba(0,0,0,.12);border-radius:0 0 20px 20px;z-index:5}
+  html[lang] .links.open{display:flex}
+}
+
+.tvwrap{max-width:980px;margin:0 auto}
+.tv{position:relative;padding-top:56px}
+.tvant{position:absolute;top:0;left:50%;width:200px;height:64px;transform:translateX(-50%)}
+.tvbody{position:relative;display:grid;grid-template-columns:1fr 150px;gap:16px;background:#19c3c7;border:4px solid var(--navy);border-radius:36px;padding:22px;box-shadow:inset 0 0 0 6px #7fe6e8,0 14px 0 rgba(11,74,90,.22)}
+.tvscreen{position:relative;aspect-ratio:16/9;background:#06212a;border:6px solid #fff2dc;outline:4px solid var(--navy);border-radius:26px/22px;overflow:hidden;box-shadow:inset 0 0 44px rgba(0,0,0,.65)}
+.tvscreen:fullscreen{border-radius:0;border:0;outline:0;aspect-ratio:auto;width:100%;height:100%}
+.tvscreen:-webkit-full-screen{border-radius:0;border:0;outline:0;width:100%;height:100%}
+.tvscreen iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+.tvprev{position:absolute;inset:0;width:100%;height:100%;border:0;padding:0;background:none;color:#fff;cursor:pointer;display:block}
+.tvimg{position:absolute;inset:0;background:linear-gradient(135deg,#19c3c7,#ffd36b 55%,#e07a2f) center/cover no-repeat;filter:grayscale(1) contrast(1.06);transition:filter .5s,transform .9s}
+.tvscreen:hover .tvimg,.chcard:hover .tvimg,.chcard:focus-visible .tvimg{filter:none;transform:scale(1.05)}
+.tvplay{position:absolute;top:50%;left:50%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;background:rgba(11,74,90,.82);border:3px solid #fff;display:flex;align-items:center;justify-content:center;transition:transform .25s,background .25s}
+.tvplay svg{width:34px;height:34px;margin-left:4px}
+.tvprev:hover .tvplay{transform:scale(1.12);background:var(--accent)}
+.tvcap{position:absolute;left:0;right:0;bottom:0;padding:22px 16px 12px;text-align:start;font-weight:800;font-size:1.05rem;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.72));text-shadow:0 2px 4px rgba(0,0,0,.6)}
+.tvstatic{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.55) 0 2px,rgba(0,0,0,.55) 2px 4px);opacity:0;animation:tvst .5s steps(7) 1}
+@keyframes tvst{0%{opacity:.95}100%{opacity:0}}
+.tvglass{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.14) 0 1px,transparent 1px 3px),radial-gradient(ellipse at center,transparent 58%,rgba(0,0,0,.4))}
+.tvpanel{display:flex;flex-direction:column;align-items:center;gap:16px;background:#fff2dc;border:3px solid var(--navy);border-radius:22px;padding:16px 10px}
+.led{width:12px;height:12px;border-radius:50%;background:#ff5a4a;box-shadow:0 0 9px #ff5a4a;animation:ledb 2.4s ease-in-out infinite}
+@keyframes ledb{0%,100%{opacity:1}50%{opacity:.45}}
+.knob{position:relative;width:62px;height:62px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffb067,#e07a2f 62%,#b8541a);border:3px solid var(--navy);box-shadow:0 5px 0 var(--navy);cursor:pointer;padding:0;transition:transform .15s,box-shadow .15s}
+.knob::after{content:"";position:absolute;left:50%;top:6px;width:4px;height:18px;margin-left:-2px;background:var(--navy);border-radius:3px}
+.knob:hover{transform:rotate(18deg)}
+.knob:active{transform:translateY(3px) rotate(28deg);box-shadow:0 2px 0 var(--navy)}
+.grille{display:grid;gap:6px;width:100%;margin-top:auto}
+.grille i{display:block;height:5px;border-radius:3px;background:var(--navy);opacity:.8}
+.tvlegs{display:flex;justify-content:space-between;padding:0 14%}
+.tvlegs i{width:44px;height:36px;background:var(--navy);clip-path:polygon(18% 0,82% 0,100% 100%,0 100%)}
+.tvtools{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.tvinfo{text-align:center;max-width:720px;margin:20px auto 0}
+.tvinfo h2{margin-bottom:8px}
+.tvinfo p{line-height:2;font-size:1.05rem}
+
+.chgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.chcard{position:relative;aspect-ratio:16/10;border:2.5px solid var(--navy);border-radius:18px;overflow:hidden;background:#06212a;padding:0;cursor:pointer;color:#fff;box-shadow:0 8px 0 rgba(11,74,90,.18)}
+.chcard.on{outline:4px solid var(--accent);outline-offset:2px}
+.chcard .tvcap{font-size:.92rem}
+
+.pi-tv{animation:pitv 2.6s steps(2) infinite}
+@keyframes pitv{0%,100%{opacity:1}45%{opacity:.5}50%{opacity:1}}
+
+@media (max-width:760px){
+  .tvbody{grid-template-columns:1fr;padding:14px;border-radius:28px}
+  .tvpanel{flex-direction:row;justify-content:space-around;padding:10px}
+  .grille{display:none}
+  .knob{width:50px;height:50px}
+  .tvant{width:150px}
+  .tvplay{width:60px;height:60px;margin:-30px 0 0 -30px}
+}
+@media (prefers-reduced-motion:reduce){
+  .tvstatic,.led,.pi-tv{animation:none}
+  .tvimg{transition:filter .5s}
+}

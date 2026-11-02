@@ -1,4 +1,4 @@
-import { HomePage } from "../../../components/Pages";
+import HomePage from "../../../components/HomePage";
 import { CONTENT } from "../../../lib/content";
 import { LANGS, SITE, T } from "../../../lib/i18n";
 
