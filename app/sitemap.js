@@ -1,5 +1,3 @@
-const NONEMPTY_NOTE = 0;
-void NONEMPTY_NOTE;
 const SITE = "https://pissoo.ir";
 const LANGS = ["fa", "en", "ar"];
 const PATHS = ["", "about/", "rooms/", "experiences/", "food/", "around/", "culture/", "shop/", "winds/", "gallery/", "rules/", "contact/"];

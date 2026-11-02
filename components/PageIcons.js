@@ -27,7 +27,6 @@ const ICONS = {
       <path className="pi-win w2" d="M28 40v-7a4 4 0 0 1 8 0v7z" fill={Y} />
       <path d="M12 54v-8a6 6 0 0 1 12 0v8M30 54v-8a6 6 0 0 1 12 0v8" fill={O} />
       <path d="M48 54V44h5v-6h4v-8h-0" />
-      <path d="M52 22l4 0" stroke="none" />
     </>
   ),
   exp: (
@@ -58,6 +57,17 @@ const ICONS = {
         <path d="M32 6a15 15 0 0 1 15 15c0 12-15 30-15 30S17 33 17 21A15 15 0 0 1 32 6z" fill={TQ} />
         <circle cx="32" cy="21" r="5.5" fill={C} />
       </g>
+    </>
+  ),
+  culture: (
+    <>
+      <path d="M32 18L18 6M32 18L46 6" />
+      <circle cx="18" cy="6" r="2.4" fill={O} /><circle cx="46" cy="6" r="2.4" fill={O} />
+      <rect x="5" y="18" width="54" height="36" rx="8" fill={TQ} />
+      <rect className="pi-tv" x="10" y="23" width="34" height="26" rx="5" fill={C} />
+      <path d="M17 42l7-8 6 5 7-9" stroke={O} />
+      <circle cx="51" cy="29" r="3.6" fill={O} /><circle cx="51" cy="40" r="3.6" fill={Y} />
+      <path d="M14 54v4M50 54v4" />
     </>
   ),
   shop: (

@@ -7,7 +7,7 @@ import PageIcon from "./PageIcons";
 import { WhatsAppIcon, TelegramIcon } from "./Icons";
 
 // lists that must never come back empty: if the admin panel saved an empty list, keep the built-in defaults
-const NONEMPTY = ["rooms", "packages", "products", "hero", "gallery"];
+const NONEMPTY = ["rooms", "packages", "products", "hero", "gallery", "culture"];
 
 export function mergeContent(base, saved) {
   const out = { ...base, ...saved, settings: { ...base.settings, ...(saved.settings || {}) } };

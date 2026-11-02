@@ -20,11 +20,19 @@ const CATN = { wood: "چوبی", wicker: "حصیری", shell: "صدفی", native
 const FIELDS = {
   rooms: [["name", "i18n", "نام"], ["desc", "i18nl", "توضیح"], ["amen", "amen", "امکانات"], ["capMin", "num", "حداقل ظرفیت (نفر)"], ["capMax", "num", "حداکثر ظرفیت (نفر)"], ["price", "num", "قیمت دو نفر با صبحانه (تومان؛ ۰ = استعلام)"], ["extra", "num", "هر نفر اضافه (تومان؛ ۰ = نمایش داده نشود)"], ["single", "num", "اقامت یک نفر (تومان؛ ۰ = نمایش داده نشود)"], ["img", "img", "عکس"]],
   packages: [["name", "i18n", "نام"], ["desc", "i18nl", "توضیح"], ["duration", "i18n", "مدت"], ["price", "num", "قیمت (۰ = استعلام)"], ["img", "img", "عکس"]],
+  culture: [["title", "i18n", "عنوان"], ["desc", "i18nl", "توضیح"], ["url", "text", "لینک ویدیو (آپارات مثل https://www.aparat.com/v/XXXXX یا یوتیوب)"], ["img", "img", "عکس پیش‌نمایش (اختیاری؛ برای یوتیوب خودکار است)"]],
   products: [["cat", "cat", "دسته‌بندی"], ["name", "i18n", "نام"], ["desc", "i18nl", "توضیح"], ["price", "num", "قیمت (تومان؛ ۰ = تماس بگیرید)"], ["img", "img", "عکس"], ["soldout", "bool", "ناموجود"]],
   reviews: [["author", "text", "نام مسافر"], ["text", "i18nl", "متن نظر"]],
 };
-const TABS = [["settings", "تنظیمات و تماس"], ["rooms", "اتاق‌ها"], ["packages", "تجربه‌ها و تورها"], ["products", "فروشگاه"], ["media", "تصاویر"], ["reviews", "نظرات"], ["account", "رمز عبور"]];
+const TABS = [["settings", "تنظیمات و تماس"], ["rooms", "اتاق‌ها"], ["packages", "تجربه‌ها و تورها"], ["culture", "فرهنگ بوشهری"], ["products", "فروشگاه"], ["media", "تصاویر"], ["reviews", "نظرات"], ["account", "رمز عبور"]];
+const NONEMPTY = ["rooms", "packages", "products", "hero", "gallery", "culture"];
 const blank = (k) => ({ id: uid(), ...Object.fromEntries(FIELDS[k].map(([f, ty]) => [f, ty === "i18n" || ty === "i18nl" ? { fa: "", en: "", ar: "" } : ty === "num" ? 0 : ty === "bool" ? false : ty === "cat" ? "wood" : ty === "amen" ? [] : ""])) });
+
+function merged(saved) {
+  const out = { ...CONTENT, ...saved, settings: { ...CONTENT.settings, ...(saved.settings || {}) } };
+  NONEMPTY.forEach((k) => { if (!Array.isArray(saved[k]) || saved[k].length === 0) out[k] = CONTENT[k]; });
+  return out;
+}
 
 function Img({ value, onChange }) {
   const [busy, setBusy] = useState(false);
@@ -66,7 +74,7 @@ function Field({ type, value, onChange }) {
   if (type === "bool") return <input type="checkbox" checked={!!value} onChange={(e) => onChange(e.target.checked)} />;
   if (type === "cat") return <select value={value} onChange={(e) => onChange(e.target.value)}>{CATS.map((c) => <option key={c} value={c}>{CATN[c]}</option>)}</select>;
   if (type === "img") return <Img value={value} onChange={onChange} />;
-  return <input value={value || ""} onChange={(e) => onChange(e.target.value)} />;
+  return <input dir="ltr" value={value || ""} onChange={(e) => onChange(e.target.value)} />;
 }
 
 function Collection({ k, items, setItems }) {
@@ -76,7 +84,7 @@ function Collection({ k, items, setItems }) {
     <div>
       {items.map((it, i) => (
         <details key={it.id} className="adm-card">
-          <summary>{(it.name && it.name.fa) || it.author || "(بدون نام)"}
+          <summary>{(it.name && it.name.fa) || (it.title && it.title.fa) || it.author || "(بدون نام)"}
             <span className="adm-ops" onClick={(e) => e.preventDefault()}>
               <button type="button" onClick={() => move(i, -1)}>↑</button><button type="button" onClick={() => move(i, 1)}>↓</button>
               <button type="button" className="danger" onClick={() => confirm("حذف شود؟") && setItems(items.filter((_, j) => j !== i))}>حذف</button>
@@ -116,7 +124,7 @@ export default function Admin() {
   const load = async () => {
     try {
       const j = await api("content");
-      if (j.content) setC({ ...CONTENT, ...j.content, settings: { ...CONTENT.settings, ...(j.content.settings || {}) } });
+      if (j.content) setC(merged(j.content));
     } catch (e) {}
   };
   useEffect(() => { api("status").then((j) => { setSt(j); if (j.admin) load(); }).catch(() => setSt({ error: true })); }, []);
@@ -159,7 +167,7 @@ export default function Admin() {
       <main className="adm-main">
         {tab === "settings" && (
           <div>
-            {[["phone", "شماره تلفن (نمایشی)"], ["whatsapp", "شماره واتساپ (بین‌المللی بدون +؛ مثل 989938338277)"], ["telegram", "شماره تلگرام (بین‌المللی بدون +)"], ["instagram", "آدرس اینستاگرام"], ["mapUrl", "لینک نقشه"], ["heroVideo", "ویدیوی بالای سایت (مسیر mp4، مثل /hero/sea.mp4؛ خالی = اسلایدشو)"]].map(([f, l]) => (
+            {[["phone", "شماره تلفن (نمایشی)"], ["whatsapp", "شماره واتساپ (بین‌المللی بدون +؛ مثل 989938338277)"], ["telegram", "شماره تلگرام (بین‌المللی بدون +)"], ["instagram", "آدرس اینستاگرام"], ["mapUrl", "لینک نقشه"]].map(([f, l]) => (
               <label className="adm-f" key={f}><b>{l}</b><input dir="ltr" value={c.settings[f] || ""} onChange={(e) => setS(f, e.target.value)} /></label>
             ))}
             <label className="adm-f"><b>نشانی</b><Field type="i18n" value={c.settings.address} onChange={(v) => setS("address", v)} /></label>
@@ -168,8 +176,7 @@ export default function Admin() {
         {FIELDS[tab] && <Collection k={tab} items={c[tab] || []} setItems={(v) => setC({ ...c, [tab]: v })} />}
         {tab === "media" && (
           <div>
-            <h3>تصاویر اسلایدشوی بالای سایت</h3><ImageList items={c.hero} setItems={(v) => setC({ ...c, hero: v })} />
-            <h3>گالری</h3><ImageList items={c.gallery} setItems={(v) => setC({ ...c, gallery: v })} />
+            <h3>تصاویر گالری</h3><ImageList items={c.gallery} setItems={(v) => setC({ ...c, gallery: v })} />
           </div>
         )}
         {tab === "account" && (
