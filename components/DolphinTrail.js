@@ -1,11 +1,14 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 
-/* Dolphins that swim after the cursor.
+/* Two dolphins that swim calmly after the cursor.
    Preferred: the 3D humpback-dolphin model (/models/dolphin.glb, three.js loaded lazily on the first pointer move).
    Fallback (no WebGL, model missing, or load error): flat SVG dolphins. Disabled for prefers-reduced-motion. */
 
-const LEN = [124, 100, 82, 66]; // body length in px for the 3D dolphins
+const LEN = [124, 96]; // body length in px for the 3D dolphins
+const LEAD_EASE = 0.028; // how quickly the first dolphin closes in on the cursor (lower = lazier)
+const FOLLOW_EASE = 0.045; // how quickly the second follows the first
+const MAX_STEP = 3.2; // top speed in px per frame at 60 fps (~190 px/s)
 
 function hasWebGL() {
   try {
@@ -91,31 +94,32 @@ function Trail3D({ onFail }) {
           canvas.style.opacity = idle ? "0.35" : "0.97";
           const f = dt * 60;
           dols.forEach((d, i) => {
-            if (!d.ready) { d.x = mouse.x - 50 - i * 26; d.y = mouse.y + 36; d.ready = true; }
+            if (!d.ready) { d.x = mouse.x - 70 - i * 40; d.y = mouse.y + 44; d.ready = true; }
             const lead = i === 0 ? mouse : dols[i - 1];
-            const gap = i === 0 ? 64 : d.len * 0.55 + 8;
+            const gap = i === 0 ? 70 : d.len * 0.6 + 10;
             const dx = lead.x - d.x; const dy = lead.y - d.y;
             const dist = Math.hypot(dx, dy) || 1;
             const tx = lead.x - (dx / dist) * gap; const ty = lead.y - (dy / dist) * gap;
-            const k = 1 - Math.pow(1 - (i === 0 ? 0.07 : 0.11), f);
-            const px = d.x; const py = d.y;
-            d.x += (tx - d.x) * k; d.y += (ty - d.y) * k;
-            const vx = d.x - px; const vy = d.y - py;
-            const sp = Math.hypot(vx, vy) / Math.max(f, 0.001);
-            d.sp += (sp - d.sp) * 0.1;
-            if (sp > 0.2) {
-              const target = Math.atan2(vy, vx);
+            const k = 1 - Math.pow(1 - (i === 0 ? LEAD_EASE : FOLLOW_EASE), f);
+            let sx = (tx - d.x) * k; let sy = (ty - d.y) * k;
+            const sl = Math.hypot(sx, sy); const cap = MAX_STEP * f;
+            if (sl > cap) { sx = (sx / sl) * cap; sy = (sy / sl) * cap; }
+            d.x += sx; d.y += sy;
+            const sp = Math.hypot(sx, sy) / Math.max(f, 0.001);
+            d.sp += (sp - d.sp) * 0.06;
+            if (sp > 0.12) {
+              const target = Math.atan2(sy, sx);
               let diff = target - d.a; diff = Math.atan2(Math.sin(diff), Math.cos(diff));
-              d.a += diff * Math.min(1, 0.12 * f);
+              d.a += diff * Math.min(1, 0.05 * f);
             }
             const left = Math.cos(d.a) < 0;
-            d.yaw += ((left ? Math.PI : 0) - d.yaw) * Math.min(1, 0.12 * f);
+            d.yaw += ((left ? Math.PI : 0) - d.yaw) * Math.min(1, 0.05 * f);
             const heading = left ? d.a - Math.PI : d.a;
-            d.A.position.set(d.x, -d.y + Math.sin(t / 520 + i) * 3, 0);
+            d.A.position.set(d.x, -d.y + Math.sin(t / 700 + i) * 3, 0);
             d.A.rotation.z = -heading;
             d.C.rotation.y = d.yaw;
-            d.ph += dt * (4 + Math.min(d.sp, 6) * 0.9);
-            const w = Math.sin(d.ph) * 0.95;
+            d.ph += dt * (2.4 + Math.min(d.sp, 3.2) * 0.45);
+            const w = Math.sin(d.ph) * 0.9;
             d.morphs.forEach((m) => { m.morphTargetInfluences[0] = w; });
           });
           renderer.render(scene, cam);
@@ -150,8 +154,8 @@ function Trail3D({ onFail }) {
 }
 
 /* ---------- flat SVG fallback ---------- */
-const SIZES = [46, 38, 31, 25];
-const COLORS = ["#0b7f8c", "#16a2ad", "#2dc2c6", "#5fd8da"];
+const SIZES = [46, 36];
+const COLORS = ["#0b7f8c", "#2dc2c6"];
 
 function Dolphin({ w, c }) {
   return (
@@ -175,7 +179,7 @@ function Trail2D() {
     const onMove = (e) => {
       const p = e.touches && e.touches[0] ? e.touches[0] : e;
       mouse.x = p.clientX; mouse.y = p.clientY; mouse.last = performance.now();
-      if (!mouse.seen) { mouse.seen = true; P.forEach((d, i) => { d.x = mouse.x - 40 - i * 18; d.y = mouse.y + 30; }); }
+      if (!mouse.seen) { mouse.seen = true; P.forEach((d, i) => { d.x = mouse.x - 50 - i * 30; d.y = mouse.y + 36; }); }
     };
     window.addEventListener("mousemove", onMove, { passive: true });
     window.addEventListener("touchstart", onMove, { passive: true });
@@ -189,25 +193,27 @@ function Trail2D() {
         const d = P[i]; const el = refs.current[i];
         if (!el) continue;
         const lead = i === 0 ? mouse : P[i - 1];
-        const gap = i === 0 ? 48 : SIZES[i] * 0.9 + 8;
+        const gap = i === 0 ? 56 : SIZES[i] * 0.9 + 10;
         const dx = lead.x - d.x; const dy = lead.y - d.y;
         const dist = Math.hypot(dx, dy) || 1;
         const tx = lead.x - (dx / dist) * gap; const ty = lead.y - (dy / dist) * gap;
-        const k = i === 0 ? 0.07 : 0.11;
-        const px = d.x; const py = d.y;
-        d.x += (tx - d.x) * k; d.y += (ty - d.y) * k;
-        const vx = d.x - px; const vy = d.y - py; const sp = Math.hypot(vx, vy);
-        if (sp > 0.15) {
-          const target = Math.atan2(vy, vx);
+        const k = i === 0 ? 0.03 : 0.045;
+        let sx = (tx - d.x) * k; let sy = (ty - d.y) * k;
+        const sl = Math.hypot(sx, sy);
+        if (sl > 3) { sx = (sx / sl) * 3; sy = (sy / sl) * 3; }
+        d.x += sx; d.y += sy;
+        const sp = Math.hypot(sx, sy);
+        if (sp > 0.1) {
+          const target = Math.atan2(sy, sx);
           let diff = target - d.a; diff = Math.atan2(Math.sin(diff), Math.cos(diff));
-          d.a += diff * 0.12; d.flipT = Math.cos(d.a) < 0 ? -1 : 1;
+          d.a += diff * 0.06; d.flipT = Math.cos(d.a) < 0 ? -1 : 1;
         }
-        d.flip += (d.flipT - d.flip) * 0.15;
+        d.flip += (d.flipT - d.flip) * 0.08;
         const calm = Math.min(1, 0.35 + sp);
-        const bob = Math.sin(t / 420 + i * 1.3) * 3 * calm;
-        const wig = Math.sin(t / 170 + i) * 5 * Math.min(1, 0.3 + sp * 0.6);
+        const bob = Math.sin(t / 650 + i * 1.3) * 3 * calm;
+        const wig = Math.sin(t / 320 + i) * 5 * Math.min(1, 0.3 + sp * 0.5);
         const w = SIZES[i];
-        d.op += ((idle ? 0.3 : 0.92) - d.op) * 0.06;
+        d.op += ((idle ? 0.3 : 0.92) - d.op) * 0.05;
         el.style.opacity = d.op.toFixed(3);
         el.style.transform = `translate3d(${(d.x - w / 2).toFixed(1)}px, ${(d.y - w / 4 + bob).toFixed(1)}px, 0) rotate(${((d.a * 180) / Math.PI + wig).toFixed(1)}deg) scaleY(${d.flip.toFixed(2)})`;
       }
