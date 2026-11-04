@@ -4,6 +4,7 @@ import { G, IG_URL, NAVX } from "../lib/guest";
 import { NAV_ROOMS, WINDS_NAV } from "../lib/winds";
 import { CONTENT } from "../lib/content";
 import { WhatsAppIcon, TelegramIcon, InstagramIcon, PhoneIcon } from "./Icons";
+import Logo from "./Logo";
 
 const L = {
   fa: { strip: "خونه پیسو در یک نگاه", hours: "ساعت سرویس‌دهی", hoursV: "هر روز، ۸ صبح تا ۱۱ شب", where: "کجا", addr: "بوشهر، تنگستان، دلوار، بندر رستمی", route: "مسیر روی نقشه", site: "در سایت", open: "مهمان پیسو باشی؛ از قبل هماهنگ کنیم", ig: "اینستاگرام پیسو" },
@@ -31,8 +32,6 @@ function Surfacing({ x, y, rot, scale, cls }) {
           <path d="M19 3.6L24-4L29 5Z" fill="#4f555d" />
           <path d="M27 16L24 23L31 17Z" fill="#8a8f96" />
         </g>
-        <circle cx="15" cy="1.2" r="1.2" fill="#0b4a5a" stroke="none" transform="translate(0 0)" opacity="0" />
-        <circle cx="15" cy="1" r="1.1" fill="#073b44" transform="translate(0 0)" opacity="0" />
       </g>
     </g>
   );
@@ -87,7 +86,7 @@ export default function SiteFooter({ lang, settings }) {
           <div className="sf-wrap">
             <div className="fgrid">
               <div className="fbrand">
-                <img src="/logo.png" alt="Pissoo House" />
+                <a href={`/${lang}/`} aria-label="Pissoo House" className="flogo"><Logo height={72} /></a>
                 <p className="fopen"><i aria-hidden="true" />{l.open}</p>
                 <a className="fig" href={ig} target="_blank" rel="noopener noreferrer"><InstagramIcon size={20} /> {l.ig}</a>
               </div>

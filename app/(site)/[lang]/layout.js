@@ -3,6 +3,7 @@ import "../../theme.css";
 import { Vazirmatn, Lalezar } from "next/font/google";
 import { LANGS, META, SITE, T } from "../../../lib/i18n";
 import DolphinTrail from "../../../components/DolphinTrail";
+import HoverSound from "../../../components/HoverSound";
 
 const font = Vazirmatn({ subsets: ["arabic", "latin"], display: "swap", variable: "--font" });
 const display = Lalezar({ subsets: ["arabic", "latin"], weight: "400", display: "swap", variable: "--font-display" });
@@ -22,7 +23,7 @@ export function generateMetadata({ params }) {
     title: t.title,
     description: t.desc,
     alternates: { canonical: `${SITE}/${lang}/`, languages },
-    openGraph: { title: t.title, description: t.desc, url: `${SITE}/${lang}/`, siteName: "Pissoo", locale: META[lang].locale, type: "website", images: [{ url: "/hero/hero-1.jpg" }] },
+    openGraph: { title: t.title, description: t.desc, url: `${SITE}/${lang}/`, siteName: "Pissoo", locale: META[lang].locale, type: "website", images: [{ url: "/logo.png" }] },
     twitter: { card: "summary_large_image", title: t.title, description: t.desc },
     robots: { index: true, follow: true },
   };
@@ -35,6 +36,7 @@ export default function Layout({ children, params }) {
       <body className={`${font.variable} ${display.variable}`}>
         {children}
         <DolphinTrail />
+        <HoverSound lang={lang} />
       </body>
     </html>
   );

@@ -6,6 +6,7 @@ import { T, LANGS } from "../lib/i18n";
 import { NAV_ROOMS, WINDS_NAV } from "../lib/winds";
 import { NAVX } from "../lib/guest";
 import { NAV_PAGES2, CULTURE_NAV } from "../lib/culture";
+import Logo from "./Logo";
 
 export default function NavBar({ lang, current, path }) {
   const [open, setOpen] = useState(false);
@@ -14,7 +15,7 @@ export default function NavBar({ lang, current, path }) {
   return (
     <header id="top">
       <nav>
-        <a className="brand" href={`/${lang}/`}><img src="/logo.png" alt="Pissoo House" height="48" /></a>
+        <a className="brand" href={`/${lang}/`} aria-label="Pissoo House"><Logo height={52} /></a>
         <button className="burger" aria-label="menu" aria-expanded={open} onClick={() => setOpen(!open)}>☰</button>
         <div className={"links" + (open ? " open" : "")} onClick={() => setOpen(false)}>
           {NAV_PAGES2.map(([k, p]) => (

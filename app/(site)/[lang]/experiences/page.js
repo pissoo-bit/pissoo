@@ -1,4 +1,4 @@
-import { ExpPage } from "../../../../components/Pages";
+import ExpPage from "../../../../components/ExpPage";
 import { CONTENT } from "../../../../lib/content";
 import { LANGS, SITE } from "../../../../lib/i18n";
 import { metaFor2 } from "../../../../lib/home";

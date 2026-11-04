@@ -1,4 +1,4 @@
-import { ContactPage } from "../../../../components/Pages";
+import ContactPage from "../../../../components/ContactPage";
 import { CONTENT } from "../../../../lib/content";
 import { LANGS, SITE } from "../../../../lib/i18n";
 import { metaFor2 } from "../../../../lib/home";

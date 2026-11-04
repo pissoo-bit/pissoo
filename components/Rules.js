@@ -48,7 +48,7 @@ export default function Rules({ lang }) {
 
         <section className="gp-wrap narrowf">
           <h2>{g.formT}</h2>
-          <RuleForm wa="989938338277" labels={{ waMsg: g.waMsg, fName: g.fName, fPhone: g.fPhone, fIn: g.fIn, fOk: g.fOk, fSend: g.fSend }} />
+          <RuleForm lang={lang} wa="989938338277" labels={{ waMsg: g.waMsg, fName: g.fName, fPhone: g.fPhone, fIn: g.fIn, fOk: g.fOk, fSend: g.fSend }} />
           <p className="sign">{g.sign}</p>
         </section>
       </main>
