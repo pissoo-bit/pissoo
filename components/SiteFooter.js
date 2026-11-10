@@ -86,7 +86,7 @@ export default function SiteFooter({ lang, settings }) {
           <div className="sf-wrap">
             <div className="fgrid">
               <div className="fbrand">
-                <a href={`/${lang}/`} aria-label="Pissoo House" className="flogo"><Logo height={72} /></a>
+                <a href={`/${lang}/`} aria-label="Pissoo House" className="flogo"><Logo variant="stacked" height={112} /></a>
                 <p className="fopen"><i aria-hidden="true" />{l.open}</p>
                 <a className="fig" href={ig} target="_blank" rel="noopener noreferrer"><InstagramIcon size={20} /> {l.ig}</a>
               </div>

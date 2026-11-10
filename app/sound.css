@@ -6,7 +6,8 @@
 .jp select{width:100%;padding:10px 10px;border:2.5px solid #0b4a5a;border-radius:16px;font:inherit;background:#fffaf0}
 .xhost{font-weight:700;color:#0b9aa6}
 .flogo{display:inline-block}
-.sea-body .fbrand .flogo{background:#fffaf0;border-radius:16px;padding:6px 14px;margin-bottom:12px}
-.sea-body .fbrand .flogo img,.sea-body .fbrand .flogo svg{display:block;height:72px;width:auto;background:none;padding:0;margin:0}
+.sea-body .fbrand .flogo{background:#fffaf0;border-radius:18px;padding:8px 18px;margin-bottom:12px}
+.sea-body .fbrand .flogo img,.sea-body .fbrand .flogo svg{display:block;height:112px;width:auto;background:none;padding:0;margin:0}
 .logo-fb{width:auto}
-nav a.brand img,nav a.brand svg{display:block;height:52px;width:auto}
+nav a.brand img,nav a.brand svg{display:block;height:54px;width:auto}
+@media (max-width:760px){nav a.brand img,nav a.brand svg{height:46px}}

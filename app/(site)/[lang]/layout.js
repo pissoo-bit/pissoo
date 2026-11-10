@@ -23,7 +23,8 @@ export function generateMetadata({ params }) {
     title: t.title,
     description: t.desc,
     alternates: { canonical: `${SITE}/${lang}/`, languages },
-    openGraph: { title: t.title, description: t.desc, url: `${SITE}/${lang}/`, siteName: "Pissoo", locale: META[lang].locale, type: "website", images: [{ url: "/logo.png" }] },
+    icons: { icon: [{ url: "/brand/favicon.png", type: "image/png" }], shortcut: "/brand/favicon.png", apple: "/brand/apple-touch-icon.png" },
+    openGraph: { title: t.title, description: t.desc, url: `${SITE}/${lang}/`, siteName: "Pissoo", locale: META[lang].locale, type: "website", images: [{ url: "/brand/profile-stacked.png" }] },
     twitter: { card: "summary_large_image", title: t.title, description: t.desc },
     robots: { index: true, follow: true },
   };

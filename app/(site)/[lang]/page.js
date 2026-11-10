@@ -17,7 +17,7 @@ export default function Page({ params }) {
     alternateName: "Pissoo House",
     description: t.desc,
     url: `${SITE}/${lang}/`,
-    logo: `${SITE}/logo.png`,
+    logo: `${SITE}/brand/logo-stacked.png`,
     image: `${SITE}/hero/hero-1.jpg`,
     telephone: "+989938338277",
     availableLanguage: ["fa", "en", "ar"],

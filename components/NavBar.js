@@ -15,7 +15,7 @@ export default function NavBar({ lang, current, path }) {
   return (
     <header id="top">
       <nav>
-        <a className="brand" href={`/${lang}/`} aria-label="Pissoo House"><Logo height={52} /></a>
+        <a className="brand" href={`/${lang}/`} aria-label="Pissoo House"><Logo variant="horizontal" height={54} /></a>
         <button className="burger" aria-label="menu" aria-expanded={open} onClick={() => setOpen(!open)}>☰</button>
         <div className={"links" + (open ? " open" : "")} onClick={() => setOpen(false)}>
           {NAV_PAGES2.map(([k, p]) => (
