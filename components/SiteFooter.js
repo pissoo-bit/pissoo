@@ -86,7 +86,7 @@ export default function SiteFooter({ lang, settings }) {
           <div className="sf-wrap">
             <div className="fgrid">
               <div className="fbrand">
-                <a href={`/${lang}/`} aria-label="Pissoo House" className="flogo"><Logo variant="stacked" height={112} /></a>
+                <a href={`/${lang}/`} aria-label="Pissoo House" className="flogo"><Logo variant="stacked" height={140} /></a>
                 <p className="fopen"><i aria-hidden="true" />{l.open}</p>
                 <a className="fig" href={ig} target="_blank" rel="noopener noreferrer"><InstagramIcon size={20} /> {l.ig}</a>
               </div>
@@ -96,7 +96,7 @@ export default function SiteFooter({ lang, settings }) {
             </div>
           </div>
           <div className="fbar">
-            <span className="ftext">{t.footer}</span>
+            <span className="ftext"><Logo variant="mark" className="fmark" height={28} /> {t.footer}</span>
             <span className="ficons">
               <a href={wa} target="_blank" rel="noopener" aria-label="WhatsApp"><WhatsAppIcon size={22} /></a>
               <a href={tg} target="_blank" rel="noopener" aria-label="Telegram"><TelegramIcon size={22} /></a>
