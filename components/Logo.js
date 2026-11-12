@@ -1,12 +1,12 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 
-// Pissoo logo variants (files live in public/logo/, originals in public/logo/archive/)
+// Pissoo logo variants (files live directly in public/)
 export const LOGO = {
-  horizontal: "/logo/logo-horizontal.png",
-  stacked: "/logo/logo-stacked.png",
-  mark: "/logo/sign.png",
-  word: "/logo/wordmark.png",
+  horizontal: "/logo-horizontal.png",
+  stacked: "/logo-stacked.png",
+  mark: "/sign.png",
+  word: "/wordmark.png",
 };
 
 // variant: horizontal | stacked | mark | word. With `compact`, phones get the dolphin-and-tower mark only.
